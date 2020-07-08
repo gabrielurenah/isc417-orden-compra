@@ -8,7 +8,9 @@ connectToDB = () => {
       useFindAndModify: false,
       useUnifiedTopology: true,
     })
-    .then(() => {})
+    .then(() => {
+      console.log('Mongo OK👌');
+    })
     .catch(err => {
       console.log('ERROR⚠️', err);
     });

@@ -5,7 +5,7 @@ para correrlo abre una terminal y navega a donde esta el proyecto, luego
    docker-compose up
    ```
    
-eso va a poner a mongo a correr (si se conecto exitosamente no va a salir nada y si falla te lanza un error), abre otra terminal y navega al `~/src/` y corre
+eso va a poner a mongo a correr (si se conecto exitosamente dira `Mongo OK👌` y si falla te lanza un error), abre otra terminal y navega al `~/src/` y corre
   ```
   node index.js
   ```
