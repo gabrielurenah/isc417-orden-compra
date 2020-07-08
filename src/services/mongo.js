@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
-export default function () {
+connectToDB = () => {
   mongoose
     .connect('mongodb://localhost:27017/isc417', {
       useNewUrlParser: true,
@@ -12,4 +12,6 @@ export default function () {
     .catch(err => {
       console.log('ERROR⚠️', err);
     });
-}
+};
+
+module.exports = connectToDB;
