@@ -1,19 +1,20 @@
 const mongoose = require('mongoose');
+const wrapper = require('../middlewares/async');
 
-connectToDB = () => {
-  mongoose
-    .connect('mongodb://localhost:27017/isc417', {
+connectToDB = async () => {
+  const [err, connection] = await wrapper(
+    mongoose.connect('mongodb://localhost:27017/isc417', {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
       useUnifiedTopology: true,
     })
-    .then(() => {
-      console.log('Mongo OK👌');
-    })
-    .catch(err => {
-      console.log('ERROR⚠️', err);
-    });
+  );
+
+  if (err) {
+    console.log('ERROR⚠️\n', err);
+    process.exit(1);
+  }
 };
 
 module.exports = connectToDB;
