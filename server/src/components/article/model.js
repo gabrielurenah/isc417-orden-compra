@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 const computer_part_types = [
@@ -55,4 +55,4 @@ const Article = new Schema({
   },
 });
 
-module.exports = mongoose.model('Article', Article);
+export default mongoose.model('Article', Article);

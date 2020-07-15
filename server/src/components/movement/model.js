@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
@@ -29,15 +29,10 @@ const InventoryMovement = new Schema({
     default: 0,
     min: 0,
   },
-  unidad: {
-    type: String,
-    required: true,
-    enum: ['Unidad', 'Caja (12)'],
-  },
   fecha: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model('movimientoInventario', InventoryMovement);
+export default mongoose.model('InventoryMovement', InventoryMovement);

@@ -6,3 +6,17 @@ services:
     image: mongo
     ports:
       - '27017:27017'
+    logging:
+      driver: 'none'
+
+  api:
+    build:
+      context: './server'
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/opt/app
+      - /opt/app/node_modules
+    depends_on:
+      - mongo
+    ports:
+      - 3000:3000

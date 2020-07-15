@@ -1,4 +1,4 @@
-const Article = require('./model');
+import Article from './model';
 
 const articles = [
   {
@@ -243,11 +243,11 @@ const articles = [
   },
 ];
 
-module.exports = () => {
+export default function () {
   Article.insertMany(articles)
     .then(res => console.log(res))
     .catch(err => console.error(err));
-};
+}
 
 // Article.bulkWrite(
 //   articles.map(article => ({
