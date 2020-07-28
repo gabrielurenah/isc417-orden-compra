@@ -7,7 +7,7 @@
             <b-form-group label="Almacen:" label-for="input-almacen">
               <b-form-select
                 id="input-almacen"
-                v-model="almacen"
+                v-model="movimiento.codigoAlmacen"
                 :options="almacenes"
               ></b-form-select>
             </b-form-group>
@@ -16,7 +16,7 @@
             <b-form-group label="Artículo:" label-for="input-articulo">
               <b-form-select
                 id="input-articulo"
-                v-model="articulo"
+                v-model="movimiento.codigoArticulo"
                 :options="articulos"
               ></b-form-select>
             </b-form-group>
@@ -27,7 +27,7 @@
             <b-form-group label="Tipo de Movimiento:" label-for="input-tipo">
               <b-form-select
                 id="input-tipo"
-                v-model="tipo"
+                v-model="movimiento.tipo"
                 :options="tipos"
               ></b-form-select>
             </b-form-group>
@@ -37,13 +37,16 @@
               <b-form-input
                 id="input-cantidad"
                 type="number"
-                v-model="cantidad"
+                v-model="movimiento.cantidad"
               ></b-form-input>
             </b-form-group>
           </div>
         </div>
         <div class="row">
-          <b-button class="mx-auto px-5 mt-3" variant="primary"
+          <b-button
+            class="mx-auto px-5 mt-3"
+            variant="primary"
+            v-on:click="create"
             >Registrar movimiento</b-button
           >
         </div>
@@ -51,9 +54,7 @@
     </div>
 
     <div class="mt-3">
-      <h3 class="text-center" v-if="!movimientos.length">
-        No hay movimientos
-      </h3>
+      <h3 class="text-center" v-if="!movimientos.length">No hay movimientos</h3>
       <b-table striped :items="movimientos"></b-table>
     </div>
   </div>
@@ -61,16 +62,21 @@
 
 <script>
 import { getArticles } from '../api/articles';
-import { getInventoryMovements } from '../api/movements';
+import {
+  getInventoryMovements,
+  createInventoryMovement
+} from '../api/movements';
 
 export default {
   name: 'Movements',
   data() {
     return {
-      almacen: null,
-      articulo: null,
-      tipo: null,
-      cantidad: 0,
+      movimiento: {
+        codigoAlmacen: '',
+        codigoArticulo: '',
+        tipo: '',
+        cantidad: 0
+      },
       almacenes: [
         { value: 'ALM-001', text: 'ALM-001' },
         { value: 'ALM-002', text: 'ALM-002' },
@@ -81,7 +87,8 @@ export default {
         { value: 'Entrada', text: 'Entrada' },
         { value: 'Salida', text: 'Salida' }
       ],
-      movimientos: []
+      movimientos: [],
+      error: ''
     };
   },
   beforeMount() {
@@ -97,10 +104,28 @@ export default {
       .catch(err => console.error('ERRRRR => ', err));
 
     getInventoryMovements()
-      .then(({ data }) => {
-        data.map(movement => this.movimientos.push(movement));
-      })
+      .then(({ data }) => data.map(movement => this.movimientos.push(movement)))
       .catch(err => console.error('ERRRRR => ', err));
+  },
+  methods: {
+    create() {
+      const codigo =
+        'MOV-' + (this.movimientos.length + 1).toString().padStart(3, '0');
+      createInventoryMovement({
+        ...this.movimiento,
+        codigo
+      })
+        .then(() => {
+          location.reload();
+        })
+        .catch(({ response: { status, data } }) => {
+          if (status === 400) {
+            this.error = data;
+            return;
+          }
+          this.error = 'Bueh no funciona';
+        });
+    }
   }
 };
 </script>

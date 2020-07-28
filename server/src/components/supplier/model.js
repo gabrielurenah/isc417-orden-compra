@@ -8,19 +8,14 @@ const Supplier = new Schema({
     required: true,
     unique: true,
   },
-  codigoArticulo: {
-    type: Schema.Types.ObjectId,
-    ref: 'Article',
-  },
-  tiempoEntrega: {
-    type: Number,
-    default: 1,
-    min: 1,
-  },
-  precioCompra: {
-    type: Number,
-    default: 0,
-    min: 0,
+  articulos: {
+    type: [
+      new Schema({
+        codigoArticulo: { type: String },
+        tiempoEntrega: { type: Number },
+        precioCompra: { type: Number },
+      }),
+    ],
   },
 });
 

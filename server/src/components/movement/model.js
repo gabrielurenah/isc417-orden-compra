@@ -11,7 +11,6 @@ const InventoryMovement = new Schema({
   codigoAlmacen: {
     type: String,
     required: true,
-    unique: true,
   },
   tipo: {
     type: String,
@@ -21,7 +20,6 @@ const InventoryMovement = new Schema({
   codigoArticulo: {
     type: String,
     required: true,
-    unique: true,
   },
   cantidad: {
     type: Number,

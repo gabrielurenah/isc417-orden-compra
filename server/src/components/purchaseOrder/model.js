@@ -9,15 +9,18 @@ const PurchaseOrder = new Schema({
     unique: true,
   },
   codigoSuplidor: {
-    type: Schema.Types.ObjectId,
-    ref: 'Supplier',
+    type: String,
+    required: true,
   },
-  articulos: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Article',
-    },
-  ],
+  articulos: {
+    type: [
+      new Schema({
+        codigoArticulo: { type: String },
+        cantidadOrdenada: { type: Number },
+        precioCompra: { type: Number },
+      }),
+    ],
+  },
   montoTotal: {
     type: Number,
     default: 0,
